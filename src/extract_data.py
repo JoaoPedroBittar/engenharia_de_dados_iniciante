@@ -5,17 +5,18 @@ from pathlib import Path
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def extract__weather_data(url:str) -> list:
+def extract_weather_data(url: str) -> list:
     response = requests.get(url)
-    data = response.json()
     
     if response.status_code != 200:
-        logging.error('Erro na requisição')
-        return[]
+        logging.error(f'Erro na requisição - status: {response.status_code} - {response.text}')
+        return []
+    
+    data = response.json()
     
     if not data:
         logging.warning('Nenhum dado retornado')
-        return[]
+        return []
     
     output_path = 'data/weather_data.json'
     output_dir = Path(output_path).parent
